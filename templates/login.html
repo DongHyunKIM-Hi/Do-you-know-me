@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body>
+    <html>
+    <head>
+        <title>로그인 / 회원가입 폼 템플릿</title>
+
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="form-wrap">
+                <div class="button-wrap">
+                    <div id="btn"></div>
+                    <button type="button" class="togglebtn" onclick="login()">LOG IN</button>
+                    <button type="button" class="togglebtn" onclick="register()">REGISTER</button>
+                </div>
+               <h2 style="text-align: center;">아니,,, 왜 안돼?? 왜??</h2>
+                <form id="login" action="" class="input-group">
+                    <input type="text" class="input-field" placeholder="고통받는자 그 이름은?" required>
+                    <input type="password" class="input-field" placeholder="Enter Password" required>
+                    <button class="submit">로그인</button>
+                </form>
+                <form id="register" action="" class="input-group">
+                    <input type="text" class="input-field" placeholder="고통받는자 그 이름은?" required>
+                    <input type="password" class="input-field" placeholder="Enter Paassword" required>
+                    <input type="password" class="input-field" placeholder="Password Again" required>
+                    <button class="submit">신규 등록</button>
+                </form>
+            </div>
+        </div>
+        <script>
+            var x = document.getElementById("login");
+            var y = document.getElementById("register");
+            var z = document.getElementById("btn");
+            
+            
+            function login(){
+                x.style.left = "50px";
+                y.style.left = "450px";
+                z.style.left = "0";
+            }
+
+            function register(){
+                x.style.left = "-400px";
+                y.style.left = "50px";
+                z.style.left = "110px";
+            }
+        </script>
+    </body>
+</html>
+</body>
+</html>
