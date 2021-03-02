@@ -153,7 +153,7 @@ def get_posts():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
-        posts = list(db.posts.find({}).sort("date", -1).limit(3))
+        posts = list(db.posts.find({}).sort("date", -1).limit(10))
         for post in posts:
             post["_id"] = str(post["_id"])
 
@@ -163,6 +163,9 @@ def get_posts():
         return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다.","posts":posts})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
+
+
+
 
 
 if __name__ == '__main__':
