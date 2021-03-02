@@ -19,18 +19,22 @@
         // 브라우저를 닫으면 자동 삭제되게 하거나, 일정 시간이 지나면 삭제되게 할 수 있습니다.
         function register() {
             
-            if( $('#newpw').val() !== $('#newpw_check').val()){
-                alert("값이 같다.")
-                break
-            }
-            alert("뜨면 실패")
-                $.ajax({
+            let newid = $("#newid").val()
+            let usernick = $('#usernick').val()
+            let newpw = $("#newpw").val();
+            let newpw_check = $("#newpw_check").val();
+ 
+            if ( newpw != '' && newpw_check == '' ) {
+                     null;
+                } else if (newpw != "" || newpw_check != "") {
+                  if (newpw == newpw_check) {
+                    $.ajax({
                     type: "POST",
                     url: "/api/register",
                     data: {
-                        id_give: $('#newid').val(),
-                        pw_give: $('#newpw').val(),
-                        nickname_give: $('#usernick').val()
+                        id_give: newid,
+                        pw_give: newpw,
+                        nickname_give: usernick
                     },
                     success: function (response) {
                         if (response['result'] == 'success') {
@@ -41,10 +45,14 @@
                         }
                     }
                 })
+                    } else {
+                        alert("비밀번호가 다릅니다")
+                    }
+        }
             }
 
         function login() {
-            
+            alert("로그인 버튼")
             $.ajax({
                 type: "POST",
                 url: "/api/login",
@@ -86,14 +94,14 @@
                 <form id="login" action="" class="input-group">
                     <input type="text" class="input-field" id = "userid" placeholder="고통받는자 그 이름은?" required>
                     <input type="password" class="input-field" id="userpw" placeholder="Enter Password" required>
-                    <button class="submit" onclick="login()">로그인</button>
+                    <button class="submit" type="submit" onclick="login()">로그인</button>
                 </form>
                 <form id="register" action="" class="input-group">
                     <input type="text" class="input-field" id="newid" placeholder="고통받는자 그 이름은?" required>
-                    <input type="text" class="input-field" id="newid" placeholder="분노를 표출할  가명을 설정해주세요 ㅎㅎ" required>
+                    <input type="text" class="input-field" id="usernick" placeholder="분노를 표출할  가명을 설정해주세요 ㅎㅎ" required>
                     <input type="password" class="input-field" id="newpw" placeholder="Enter Paassword" required>
                     <input type="password" class="input-field" id="newpw_check" placeholder="Password Again" required>
-                    <button class="submit" onclick="register()">신규 등록</button>
+                    <button class="submit" type="submit" onclick="register()">신규 등록</button>
                 </form>
             </div>
         </div>
