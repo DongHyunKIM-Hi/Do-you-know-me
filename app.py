@@ -28,7 +28,7 @@ def home():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.user.find_one({"id": payload['id']})
-        return render_template('main.html', nickname=user_info["nick"])
+        return render_template('index.html', nickname=user_info["nick"])
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
@@ -122,6 +122,47 @@ def api_valid():
         return jsonify({'result': 'fail', 'msg': '로그인 시간이 만료되었습니다.'})
     except jwt.exceptions.DecodeError:
         return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다.'})
+
+
+@app.route('/posting', methods=['POST'])
+def posting():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
+        user_info = db.user.find_one({"id": payload["id"]})
+        print(user_info)
+        comment_receive = request.form["comment_give"]
+        keyword_receive = request.form["keyword_give"]
+        date_receive = request.form["date_give"]
+        doc = {
+            "id": user_info["id"],
+            "comment": comment_receive,
+            "keyword": keyword_receive,
+            "date" : date_receive,
+            "nick": user_info["nick"]
+        }
+        db.posts.insert_one(doc)
+        return jsonify({"result": "success", 'msg': '포스팅 성공'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
+@app.route("/get_posts", methods=['GET'])
+def get_posts():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
+        posts = list(db.posts.find({}).sort("date", -1).limit(3))
+        for post in posts:
+            post["_id"] = str(post["_id"])
+
+            # post["count_heart"] = db.likes.count_documents({"post_id": post["_id"], "type": "heart"})
+            # post["heart_by_me"] = bool(db.likes.find_one({"post_id": post["_id"], "type": "heart", "username": payload['id']}))
+
+        return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다.","posts":posts})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
 
 
 if __name__ == '__main__':
