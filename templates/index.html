@@ -12,12 +12,12 @@
 
 		
 		
-		
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-              >
+		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 		
 		<link rel="stylesheet" href="/static/css/main.css" />
+		
 		
 		
 		<style>
@@ -221,6 +221,43 @@
 				})
 			}
 
+			function toggle_like(post_id, type) {
+				console.log(post_id, type)
+				let $a_like = $(`#${post_id} a[aria-label='heart']`)
+				let $i_like = $a_like.find("i")
+				if ($i_like.hasClass("fa-heart")) {
+					$.ajax({
+					type: "POST",
+					url: "/update_like",
+					data: {
+						post_id_give: post_id,
+						type_give: type,
+						action_give: "unlike"
+					},
+					success: function (response) {
+						console.log("unlike")
+						$i_like.addClass("fa-heart-o").removeClass("fa-heart")
+						$a_like.find("span.like-num").text(num2str(response["count"]))
+					}
+					})
+				} else {
+					$.ajax({
+					type: "POST",
+					url: "/update_like",
+					data: {
+						post_id_give: post_id,
+						type_give: type,
+						action_give: "like"
+					},
+					success: function (response) {
+						console.log("like")
+						$i_like.addClass("fa-heart").removeClass("fa-heart-o")
+						$a_like.find("span.like-num").text(response["count"])
+					}
+					})
+				}
+			}
+
 			function get_posts() {
             $("#post-box").empty()
             $.ajax({
@@ -236,11 +273,10 @@
 
                             let time_before = time2str(time_post)
 
-                            // let class_heart = post['heart_by_me'] ? "fa-heart" : "fa-heart-o"
+                            let class_heart = post['heart_by_me'] ? "fa-heart" : "fa-heart-o"
+              				let count_heart = post['count_heart']
 
-                            // let count_heart = post['count_heart']
-
-                            let html_temp = `<div id='card' class="card">
+                            let html_temp = `<div id="${post["_id"]}" class="card">
 												<div id='content' class="card-content">
 													<p class="title">
 														${post['keyword']}
@@ -252,7 +288,12 @@
 												<footer class="card-footer">
 													<p class="card-footer-item">
 													<span>
-														//공감
+														
+														<a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('${post["_id"]}','heart')">
+															<span class="icon is-small"><i style=color:red class="fa ${class_heart}" aria-hidden="true"></i></span>&nbsp;
+															<span style=color:red class="like-num">${num2str(count_heart)}</span>
+														</a>
+													
 													</span>
 													</p>
 													<p class="card-footer-item">
@@ -274,6 +315,8 @@
             })
         }
 
+		
+
 		function time2str(date) {
             let today = new Date()
             let time = (today - date) / 1000 / 60  // 분
@@ -292,9 +335,24 @@
             return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`
         }
 
-		$(document).ready(function () {
-            get_posts()
-        })
+
+		function num2str(count) {
+			if (count > 10000) {
+				return parseInt(count / 1000) + "k"
+			}
+			if (count > 500) {
+				return parseInt(count / 100) / 10 + "k"
+			}
+			if (count == 0) {
+				return ""
+			}
+			return count
+			}
+			$(document).ready(function () {
+			get_posts()
+			})
+
+		
 
 		
 		
