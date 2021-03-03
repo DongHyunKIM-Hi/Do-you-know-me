@@ -215,6 +215,20 @@ def update_like():
         return redirect(url_for("home"))
 
 
+@app.route("/get_textCloud", methods=['GET'])
+def get_textCloud():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        keys = list(db.posts.find({},{'_id': 0,'keyword':1}))
+        keyword_list=""
+        for key in keys:
+            keyword_list= keyword_list +" "+key['keyword']
+        print(keyword_list)
+        return jsonify({"result": "success", "msg": "keyword 분석완료","keyword_list":keyword_list})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
 
 if __name__ == '__main__':
     app.run('localhost', port=5000, debug=True)
