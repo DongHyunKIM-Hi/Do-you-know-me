@@ -58,7 +58,7 @@
 				</nav>
 				<a href="index.html" class="logo">intensify</a>
 				<nav class="right">
-					<a href="#" class="button alt">Log in</a>
+					<button onclick="logout()">Log out</button>	
 				</nav>
 			</header>
 
@@ -198,6 +198,8 @@
 			<script src="static/assets/js/skel.min.js"></script>
 			<script src="static/assets/js/util.js"></script>
 			<script src="static/assets/js/main.js"></script>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
 			<script>
 				function post() {
@@ -353,7 +355,11 @@
 			})
 
 		
-
+		function logout(){
+			alert("로그아웃 됬습니다")
+			$.removeCookie('mytoken', { path: '/' }); 
+			window.location.href = '/login'
+		}
 		
 		
 			</script>
