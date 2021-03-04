@@ -255,5 +255,23 @@ def get_textCloud():
         return redirect(url_for("home"))
 
 
+@app.route("/get_my_story", methods=['GET'])
+def get_my_story():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        posts = list(db.posts.find({'id': payload['id']}, {'_id': 1}).sort("date", -1).limit(20))
+        for post in posts:
+            post["_id"] = str(post["_id"])
+            temp = post["_id"]
+            post["count_heart"] = db.likes.count_documents({"post_id": post["_id"], "type": "heart"})
+            post["heart_by_me"] = bool(db.likes.find_one({"post_id": post["_id"], "type": "heart", "id": payload['id']}))
+            db.posts.update_one({'_id': temp}, {'$set': {'like': post['count_heart']}})
+        return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다.", "posts": posts})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
+
+
 if __name__ == '__main__':
     app.run('localhost', port=5000, debug=True)

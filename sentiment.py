@@ -1,5 +1,4 @@
-key = "680fe6d7de2b4df1988f4755023382e5"
-endpoint = "https://happybird00.cognitiveservices.azure.com/"
+
 from azure.ai.textanalytics import TextAnalyticsClient
 from azure.core.credentials import AzureKeyCredential
 

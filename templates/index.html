@@ -78,18 +78,64 @@
 		
 
 		<!-- Header --> 
-			<header id="header">
-				<nav class="left">
-					<a href="#menu"><span>Menu</span></a>
-				</nav>
-				<a href="index.html" class="logo">intensify</a>
-				<nav class="right">
-					<button onclick="logout()">Log out</button>	
-				</nav>
-			</header>
+		<header id="header">
+			<nav class="left">
+				<a onclick='$("#modal-my-post").addClass("is-active");' class="image is-48x48" style="margin-top: 23px;">
+					<img class="is-rounded" src="static/image/profile_placeholder.png">
+				</a>
+			</nav>
+			<a onclick="home_return()" class="logo">why!why!!</a>
+			<nav class="right">
+				<button onclick="logout()">Log out</button>	
+			</nav>
+		</header>
+
+		<div class="modal" id="modal-my-post">
+			<div class="modal-background" onclick='$("#modal-my-post").removeClass("is-active")'></div>
+			<div class="modal-content" style="width: 1500px;">
+				<div class="box">
+					<article class="media">
+						<div class="media-content">
+							<div class="field">
+								<h3>내가 작성한 분노</h3>			
+								<div class="container">
+									<div class="header_wrap">
+									<div class="num_rows">
+							
+										
+									</div>										
+								</div>
+								<table class="table table-striped table-class" id="table-id" style="width:700px; margin: auto;">
+							
+							
+									<thead>
+										<tr>
+											<th>키워드</th>
+											<th>내용</th>
+											<th>Like!</th>
+										</tr>
+									</thead>
+									<tbody id="post-my-story">
+
+									</tbody>
+								</table>
+
+									<div class="level-item" style="margin-top: 50px;">
+										<a class="button is-sparta is-outlined"
+										   onclick='$("#modal-my-post").removeClass("is-active")'>닫기</a>
+									</div>
+								</div>
+							</nav>
+						</div>
+					</article>
+				</div>
+			</div>
+			<button class="modal-close is-large" aria-label="close"
+					onclick='$("#modal-post").removeClass("is-active")'></button>
+		</div>
 
 		<!-- Menu -->
-			<nav id="menu">
+			<!-- <nav id="menu">
 				<ul class="links">
 					<li><a href="index.html">Home</a></li>
 					<li><a href="generic.html">Generic</a></li>
@@ -98,7 +144,7 @@
 				<ul class="actions vertical">
 					<li><a href="#" class="button fit">Login</a></li>
 				</ul>
-			</nav>
+			</nav> -->
 			
 			
 			
@@ -213,20 +259,20 @@
 			</section>
 
 		<!-- Footer -->
-			<footer id="footer">
-				<div class="inner">
-					<h2>23조</h2>
-					<ul class="actions">
-						<li><span class="icon fa-phone"></span> <a href="#">(000) 000-0000</a></li>
-						<li><span class="icon fa-envelope"></span> <a href="#">information@untitled.tld</a></li>
-						<li><span class="icon fa-map-marker"></span> 123 Somewhere Road, Nashville, TN 00000</li>
-					</ul>
-				</div>
-				<div class="copyright">
-					&copy; Untitled. Design <a href="https://templated.co">TEMPLATED</a>. Images <a href="https://unsplash.com">Unsplash</a>.
-				</div>
-			</footer>
-			<div id="chartdiv"></div>
+		<footer id="footer">
+			<div class="inner">
+				<h2>23조</h2>
+				<ul class="actions">
+					<li> <a href="#">김승욱</a></li>
+					<li> <a href="#">김동현</a></li>
+					<li> <a href="#">이명섭</a></li>
+				</ul>
+			</div>
+			<div class="copyright">
+				&copy; Untitled. Design <a href="https://templated.co">TEMPLATED</a>. Images <a
+					href="https://unsplash.com">Unsplash</a>.
+			</div>
+		</footer>
 			
 		<!-- Scripts -->
 			<script src="static/assets/js/jquery.min.js"></script>
@@ -437,6 +483,37 @@
             })
         }
 
+		function get_my_story(){
+				$.ajax({
+					type: "GET",
+					url: "/get_my_story",
+					data: {},
+					success: function (response) {
+						if (response["result"] == "success") {
+							let posts = response["posts"]
+							for (let i = 0; i < posts.length; i++) {
+								let post = posts[i]                                
+								let time_post = new Date(post["date"])
+								let time_before = time2str(time_post)
+								let class_heart = post['heart_by_me'] ? "fa-heart" : "fa-heart-o"
+								let count_heart = post['count_heart']
+								let html_temp = `<tr id=${post["_id"]}>														
+														<th>${post["keyword"]}</th>
+														<th>${post["comment"]}</th>
+														<th>
+															<a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('${post["_id"]}','heart')">
+																<span class="icon is-small"><i style=color:red class="fa ${class_heart}" aria-hidden="true"></i></span>&nbsp;
+																<span style=color:red class="like-num">${num2str(count_heart)}</span>
+															</a>	
+														</th>							
+												</tr>`			
+								$("#post-my-story").append(html_temp)
+							}
+						}
+					}
+				})
+			}
+
 		
 
 		function time2str(date) {
@@ -505,13 +582,18 @@
 			get_posts()
 			get_top_posts()
 			get_keyword()
+			get_my_story()
 			})
 
 		
 		function logout(){
-			alert("로그아웃 됬습니다")
+			alert("로그아웃 되었습니다")
 			$.removeCookie('mytoken', { path: '/' }); 
 			window.location.href = '/login'
+		}
+
+		function home_return(){
+			window.location.href ='/'
 		}
 		
 		
