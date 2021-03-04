@@ -10,7 +10,18 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-		
+		<audio id='audio_play' src='/static/image/test.mp3'></audio> 
+		<script type="text/javascript"> 
+		function play() { 
+			var audio = document.getElementById('audio_play'); 
+			if (audio.paused) { 
+				audio.play(); 
+			}else{ 
+				audio.pause(); 
+				audio.currentTime = 0 
+			} 
+		} 
+		</script>
 		
 		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -241,7 +252,7 @@
 										</div>
 										<div class="level-right">
 											<div class="level-item">
-												<a class="button is-sparta" onclick="post()">포스팅하기</a>
+												<a class="button is-sparta" onclick="post()"  onmouseover="play()">포스팅하기</a>
 											</div>
 											<div class="level-item">
 												<a class="button is-sparta is-outlined"
@@ -369,7 +380,9 @@
 					})
 				}
 			}
-
+			function sound(){
+				eval(str)
+			}
 			function get_top_posts(){
 				$.ajax({
 					type: "GET",
