@@ -276,6 +276,5 @@ def get_my_story():
         return redirect(url_for("home"))
 
 
-
 if __name__ == '__main__':
     app.run('localhost', port=5000, debug=True)
