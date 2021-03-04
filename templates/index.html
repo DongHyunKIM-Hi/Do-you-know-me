@@ -6,10 +6,18 @@
 -->
 <html>
 	<head>
-		<title>Intensify by TEMPLATED</title>
+		<title>아니 이게 왜 안돼는건데??</title>
+		
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<audio id='audio_play' src='/static/image/test.mp3'></audio> 
+		<meta name="description" content="">
+  		<meta name="author" content="">
+		<meta property="og:title" content="why,, not?? why??" />
+		<meta property="og:description" content="개발하다가 많이 짜증나시죠?? 여기서 분노를 표출해주세요!" />
+		<meta property="og:image" content="{{ url_for('static', filename='/image/angry.jpg') }}" />
+			  
+		
+		  <audio id='audio_play' src='/static/image/test.mp3'></audio> 
 		<script type="text/javascript"> 
 		function play() { 
 			var audio = document.getElementById('audio_play'); 
@@ -22,9 +30,6 @@
 		} 
 		</script>
 
-		<meta property="og:title" content="why,, not?? why??" />
-		<meta property="og:description" content="개발하다가 많이 짜증나시죠?? 여기서 분노를 표출해주세요!" />
-		<meta property="og:image" content="{{ url_for('static', filename='angry.jpg') }}" />
 				
 		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -178,7 +183,10 @@
 		<!-- Banner -->
 			<section id="banner" style="padding-top: 20px; padding-bottom: 0px;">
 				<div class="content">
-					<iframe width="890" height="501" src="https://www.youtube.com/embed/pEwJpMBi9sg?amp;autoplay=1&mute=1&start=123" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+					<video muted autoplay loop>
+						<source src="/static/image/컴공과 오지 마세요 (online-video-cutter.com).mp4" type="video/mp4">
+						<strong>Your browser does not support the video tag.</strong>
+					  </video>	
 				</div>
 			</section>
 			<div id="chartdiv"></div>
@@ -285,14 +293,13 @@
 			
 			<section id="best" class="container">
 				<h3 style="display: inline-block;"> -BEST- &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</h3>
-				<h5 style="display: inline-block;"> ex) 분노 지수를 표시합니다 분노 60%</h5>
+				<h5 style="display: inline-block;"> ex) 분노 지수를 표시합니다 분노 60% </h5>
 				<div style="display: inline-block;">
-					
 				<div class="graph">
 					<strong class="bar" style="width: 60%;">60</strong>
 				</div>
 				</div>
-				
+				<h5 style="display: inline-block;"> (샷건이가 아직 배우고 있어서 정확하지 않아요 ㅠㅠ)</h5>
 				<div id="best-post-box" class="card-columns">
 					
 
