@@ -262,7 +262,7 @@ def get_my_story():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        posts = list(db.posts.find({'id': payload['id']}, {'_id': 1}).sort("date", -1).limit(20))
+        posts = list(db.posts.find({'id': payload['id']}).sort("date", -1).limit(20))
         for post in posts:
             post["_id"] = str(post["_id"])
             temp = post["_id"]
