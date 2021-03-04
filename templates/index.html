@@ -21,7 +21,29 @@
 		
 		
 		<style>
-		
+		.graph {
+			position: relative; /* IE is dumb */
+			width: 200px;
+			border: 1px solid  #f6755e;
+			padding: 2px;
+			font-size: 11px;
+			font-family: tahoma;
+			margin-bottom: 3px;
+			}
+			.graph .bar {
+			display: block;
+			position: relative;
+			background:#f6755e;
+			text-align: center;
+			color: #333;
+			height: 2em;
+			line-height: 2em;
+			}
+			.graph .bar span {
+			position: absolute;
+			left: 1em;
+}
+
 		.section {
 			padding: 1rem 1.5rem;
 			max-width: 750px;
@@ -77,14 +99,16 @@
 					<li><a href="#" class="button fit">Login</a></li>
 				</ul>
 			</nav>
-
+			
+			
+			
 		<!-- Banner -->
 			<section id="banner" style="padding-top: 20px; padding-bottom: 0px;">
 				<div class="content">
 					<iframe width="890" height="501" src="https://www.youtube.com/embed/pEwJpMBi9sg?amp;autoplay=1&mute=1&start=123" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 				</div>
 			</section>
-
+			<div id="chartdiv"></div>
 		<!-- One -->
 			<section id="one" class="wrapper">
 				<div class="inner flex flex-3">
@@ -113,7 +137,8 @@
 					</div>
 				</div>
 			</section>
-
+			
+			
 			
 			<section class="section">
 				<article class="media">
@@ -183,7 +208,7 @@
 				<h3> -최신순-</h3>
 				<div id="post-box" class="card-columns">
 					
-	
+	<div style="display: inline;">
 				</div>
 			</section>
 
@@ -288,7 +313,7 @@
 								let time_post = new Date(post["date"])
 
 								let time_before = time2str(time_post)
-
+                                 
 								let class_heart = post['heart_by_me'] ? "fa-heart" : "fa-heart-o"
 								let count_heart = post['count_heart']
 
@@ -300,6 +325,9 @@
 														<p class="subtitle">
 														${post['comment']}
 														</p>
+														<div class="graph">
+															<strong class="bar" style="width: ${post['angry']}%;">${post['angry']}</strong>
+														</div>
 													</div>
 													<footer class="card-footer">
 														<p class="card-footer-item">
@@ -323,6 +351,7 @@
 														</span>
 														</p>
 													</footer>
+												 
 													</div>`
 								$("#best-post-box").append(html_temp)
 							}
@@ -374,6 +403,9 @@
 													<p class="subtitle">
 													${post['comment']}
 													</p>
+													<div class="graph">
+															<strong class="bar" style="width: ${post['angry']}%;">${post['angry']}</strong>
+														</div>
 												</div>
 												<footer class="card-footer">
 													<p class="card-footer-item">

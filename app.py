@@ -20,6 +20,27 @@ import datetime
 # 회원가입 시엔, 비밀번호를 암호화하여 DB에 저장해두는 게 좋습니다.
 # 그렇지 않으면, 개발자(=나)가 회원들의 비밀번호를 볼 수 있으니까요.^^;
 import hashlib
+#################################################################
+
+from azure.ai.textanalytics import TextAnalyticsClient
+from azure.core.credentials import AzureKeyCredential
+
+def authenticate_client():
+    ta_credential = AzureKeyCredential(key)
+    text_analytics_client = TextAnalyticsClient(
+            endpoint=endpoint, 
+            credential=ta_credential)
+    return text_analytics_client
+def sentiment_analysis_example(client,text):
+
+    documents = [
+    {"id": "1", "language": "ko", "text": text},  
+]
+    response = client.analyze_sentiment(documents=documents)[0]
+    
+    return response.confidence_scores.negative
+
+#################################################################
 
 
 @app.route('/')
@@ -132,16 +153,21 @@ def posting():
 
         user_info = db.user.find_one({"id": payload["id"]})
         print(user_info)
+        client = authenticate_client()
+
         comment_receive = request.form["comment_give"]
         keyword_receive = request.form["keyword_give"]
         date_receive = request.form["date_give"]
+        test = sentiment_analysis_example(client,comment_receive)
+        angry = float(test) * 100
         doc = {
             "id": user_info["id"],
             "comment": comment_receive,
             "keyword": keyword_receive,
             "date" : date_receive,
             "nick": user_info["nick"],
-            "like" : 0
+            "like" : 0,
+            "angry" : angry
         }
         db.posts.insert_one(doc)
         return jsonify({"result": "success", 'msg': '포스팅 성공'})
@@ -224,7 +250,6 @@ def get_textCloud():
         keyword_list=""
         for key in keys:
             keyword_list= keyword_list +" "+key['keyword']
-        print(keyword_list)
         return jsonify({"result": "success", "msg": "keyword 분석완료","keyword_list":keyword_list})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
