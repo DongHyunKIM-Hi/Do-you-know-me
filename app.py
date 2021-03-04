@@ -6,7 +6,6 @@ from pymongo import MongoClient
 
 client = MongoClient('mongodb://3.34.122.98', 27017, username="Viva", password="happybird00")
 db = client.mini1
-
 # JWT 토큰을 만들 때 필요한 비밀문자열입니다. 아무거나 입력해도 괜찮습니다.
 # 이 문자열은 서버만 알고있기 때문에, 내 서버에서만 토큰을 인코딩(=만들기)/디코딩(=풀기) 할 수 있습니다.
 SECRET_KEY = 'Viva'
@@ -249,9 +248,12 @@ def get_textCloud():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         keys = list(db.posts.find({},{'_id': 0,'keyword':1}))
+        keys_2 = list(db.posts.find({},{'_id': 0,'comment':1}))
         keyword_list=""
         for key in keys:
             keyword_list= keyword_list +" "+key['keyword']
+        for key in keys_2:
+            keyword_list= keyword_list +" "+key['comment']
         return jsonify({"result": "success", "msg": "keyword 분석완료","keyword_list":keyword_list})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
