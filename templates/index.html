@@ -525,10 +525,7 @@
 														<th>${post["keyword"]}</th>
 														<th>${post["comment"]}</th>
 														<th>
-															<a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('${post["_id"]}','heart')">
-																<span class="icon is-small"><i style=color:red class="fa ${class_heart}" aria-hidden="true"></i></span>&nbsp;
-																<span style=color:red class="like-num">${num2str(count_heart)}</span>
-															</a>	
+															${post["like"]}	
 														</th>							
 												</tr>`			
 								$("#post-my-story").append(html_temp)
