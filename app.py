@@ -160,7 +160,8 @@ def posting():
         keyword_receive = request.form["keyword_give"]
         date_receive = request.form["date_give"]
         test = sentiment_analysis_example(client,comment_receive)
-        angry = float(test) * 100
+        angry1 = float(test) * 100
+        angry= int(angry1)
         doc = {
             "id": user_info["id"],
             "comment": comment_receive,
