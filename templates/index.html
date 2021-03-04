@@ -220,13 +220,13 @@
 												<div  class="row justify-content-center align-items-center h-100" >
 													<div  class="form-group" style="width: 500px;">
 														<select id="keyword" class="mul-select" multiple="true" style="width: 500px;">
-															<option value="Git">Git</option>
-															<option value="Aws">Aws</option>
-															<option value="Python">Python</option>
-															<option value="미니프로젝트">미니프로젝트</option>
-															<option value="구글링">구글링</option>
-															<option value="vscode">vscode</option>
-															<option value="mongoDB">mongoDB</option>
+															<option value="Git">Git </option>
+															<option value="Aws">Aws </option>
+															<option value="Python">Python </option>
+															<option value="미니프로젝트">미니프로젝트 </option>
+															<option value="구글링">구글링 </option>
+															<option value="vscode">vscode </option>
+															<option value="mongoDB">mongoDB </option>
 														</select>
 													</div> 
 											   </div>
@@ -389,7 +389,7 @@
 								let class_heart = post['heart_by_me'] ? "fa-heart" : "fa-heart-o"
 								let count_heart = post['count_heart']
 
-								let html_temp = `<div id="${post["_id"]}" class="card">
+								let html_temp = `<div  class="card">
 													<div id='content' class="card-content">
 														<p class="title">
 															${post['keyword']}
@@ -405,10 +405,9 @@
 														<p class="card-footer-item">
 														<span>
 															
-															<a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('${post["_id"]}','heart')">
-																<span class="icon is-small"><i style=color:red class="fa ${class_heart}" aria-hidden="true"></i></span>&nbsp;
-																<span style=color:red class="like-num">${num2str(count_heart)}</span>
-															</a>
+															
+																<span style=color:red class="like-num">${post["like"]}</span>
+															
 														
 														</span>
 														</p>
