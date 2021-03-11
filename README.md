@@ -13,7 +13,7 @@
 
 ![4](https://user-images.githubusercontent.com/57423518/109958356-7d0bf980-7d29-11eb-8456-b928eeccb959.PNG)
 
-## 본인이 표출한 분노가 몇 점인지 나타내주는 분노 지수를 통해서 개인의 분노를 객관적으로 생각 할 수 있게 해줍니다.
+## 아마존의 azure를 통해서 사용자의 분노의 부정적 수치를 분석
 
 ![3](https://user-images.githubusercontent.com/57423518/109958316-71b8ce00-7d29-11eb-93d0-a181c91df366.PNG)
 
